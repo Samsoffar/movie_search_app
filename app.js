@@ -3,7 +3,14 @@ var app = express();
 var request = require("request");
 
 app.get("/results", function(req,res){
-    res.send("Hello, it works");
+    request("http://www.omdbapi.com/?s=california&apikey=thewdb", function(error, response, body) {
+        if (!error, response.statusCode == 200) {
+            var parsedData = JSON.parse(body);
+            res.send(parsedData["Search"][0]);
+        }
+    });
+
+
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){
